@@ -3,10 +3,11 @@ import mysql.connector
 import os
 import urllib.parse
 from datetime import datetime
-
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+#app.secret_key = os.getenv("SECRET_KEY")
 
 # --- MySQL Connection Setup ---
 def get_db_connection():
