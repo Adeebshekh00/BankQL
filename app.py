@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
 import os
+import urllib.parse
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -12,13 +13,31 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 # --- MySQL Connection Setup ---
 def get_db_connection():
+    # Try using the MYSQL_URL first (from Shared Variables or service variables)
+    mysql_url = os.getenv('MYSQL_URL')
+    if mysql_url:
+        result = urllib.parse.urlparse(mysql_url)
+        username = result.username
+        password = result.password
+        host = result.hostname
+        port = result.port
+        database = result.path[1:]  # Remove leading '/'
+    else:
+        # Fallback to individual MySQL environment variables (auto-injected by Railway)
+        username = os.getenv('DB_USER')
+        password = os.getenv('DB_PASSWORD')
+        host = os.getenv('DB_HOST')
+        port = os.getenv('DB_PORT')
+        database = os.getenv('DB_NAME')
+
     conn = mysql.connector.connect(
-        host=os.getenv("DB_HOST"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
+        host=host,
+        user=username,
+        password=password,
+        database=database,
+        port=port if port else 3306  # Default MySQL port if not specified
     )
-    return conn 
+    return conn
 
 # --- Routes ---
 @app.route('/')
