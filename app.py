@@ -25,7 +25,7 @@ def get_db_connection():
         username = os.getenv('MYSQLUSER')
         password = os.getenv('MYSQLPASSWORD')
         host = os.getenv('MYSQLHOST')
-        port = os.getenv('MYSQLPORT') or 3306
+        port = int(os.getenv('MYSQLPORT') or 3306)
         database = os.getenv('MYSQLDATABASE')
 
     conn = mysql.connector.connect(
@@ -33,7 +33,7 @@ def get_db_connection():
         user=username,
         password=password,
         database=database,
-        port=port if port else 3306  # Default MySQL port if not specified
+        port=port
     )
     return conn
 
