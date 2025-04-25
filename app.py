@@ -1,44 +1,24 @@
 from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
 import os
-import urllib.parse
-from datetime import datetime
 from dotenv import load_dotenv
+from datetime import datetime
+
+
 load_dotenv()
 
 app = Flask(__name__)
-#app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.getenv("SECRET_KEY")
 
 # --- MySQL Connection Setup ---
 def get_db_connection():
-    mysql_url = os.getenv('MySQL_URL')
-    print("DEBUG > MySQL_URL:", mysql_url)
-
-    if mysql_url:
-        result = urllib.parse.urlparse(mysql_url)
-        username = result.username
-        password = result.password
-        host = result.hostname
-        port = result.port
-        database = result.path[1:]
-        print(f"DEBUG > Using URL-based config: {host}:{port} | {username}@{database}")
-    else:
-        username = os.getenv('MYSQLUSER')
-        password = os.getenv('MYSQLPASSWORD')
-        host = os.getenv('MYSQLHOST')
-        port = int(os.getenv('MYSQLPORT') or 3306)  # ✅ ensure int
-        database = os.getenv('MYSQLDATABASE')
-        print(f"DEBUG > Using fallback config: {host}:{port} | {username}@{database}")
-
     conn = mysql.connector.connect(
-        host=host,
-        user=username,
-        password=password,
-        database=database,
-        port=port
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME")
     )
-    return conn
-
+    return conn 
 
 # --- Routes ---
 @app.route('/')
@@ -288,5 +268,5 @@ def logout():
     session.clear()
     return redirect('/')
 
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+if __name__ == '__main__':
+    app.run(debug=True)
