@@ -11,22 +11,24 @@ app = Flask(__name__)
 
 # --- MySQL Connection Setup ---
 def get_db_connection():
-    # Try using the MYSQL_URL first (from Shared Variables or service variables)
     mysql_url = os.getenv('MYSQL_URL')
+    print("DEBUG > MYSQL_URL:", mysql_url)
+
     if mysql_url:
         result = urllib.parse.urlparse(mysql_url)
         username = result.username
         password = result.password
         host = result.hostname
         port = result.port
-        database = result.path[1:]  # Remove leading '/'
+        database = result.path[1:]
+        print(f"DEBUG > Using URL-based config: {host}:{port} | {username}@{database}")
     else:
-        # Fallback to individual MySQL environment variables (auto-injected by Railway)
         username = os.getenv('MYSQLUSER')
         password = os.getenv('MYSQLPASSWORD')
         host = os.getenv('MYSQLHOST')
-        port = int(os.getenv('MYSQLPORT') or 3306)
+        port = int(os.getenv('MYSQLPORT') or 3306)  # ✅ ensure int
         database = os.getenv('MYSQLDATABASE')
+        print(f"DEBUG > Using fallback config: {host}:{port} | {username}@{database}")
 
     conn = mysql.connector.connect(
         host=host,
