@@ -11,8 +11,8 @@ app = Flask(__name__)
 
 # --- MySQL Connection Setup ---
 def get_db_connection():
-    mysql_url = os.getenv('MYSQL_URL')
-    print("DEBUG > MYSQL_URL:", mysql_url)
+    mysql_url = os.getenv('MySQL_URL')
+    print("DEBUG > MySQL_URL:", mysql_url)
 
     if mysql_url:
         result = urllib.parse.urlparse(mysql_url)
