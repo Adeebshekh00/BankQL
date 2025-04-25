@@ -22,11 +22,11 @@ def get_db_connection():
         database = result.path[1:]  # Remove leading '/'
     else:
         # Fallback to individual MySQL environment variables (auto-injected by Railway)
-        username = os.getenv('DB_USER')
-        password = os.getenv('DB_PASSWORD')
-        host = os.getenv('DB_HOST')
-        port = os.getenv('DB_PORT')
-        database = os.getenv('DB_NAME')
+        username = os.getenv('MYSQLUSER')
+        password = os.getenv('MYSQLPASSWORD')
+        host = os.getenv('MYSQLHOST')
+        port = os.getenv('MYSQLPORT') or 3306
+        database = os.getenv('MYSQLDATABASE')
 
     conn = mysql.connector.connect(
         host=host,
