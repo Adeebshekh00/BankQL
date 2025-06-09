@@ -43,5 +43,6 @@ DB_NAME=bankql(example)
 python app.py
 ``` 
 
-
+# Demo Video
+https://github.com/user-attachments/assets/ea10498b-17db-43c4-98ad-fde92a1d0b1e
 
