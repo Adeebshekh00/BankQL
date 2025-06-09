@@ -23,10 +23,10 @@ git clone https://github.com/Adeebshekh00/BankQL.git
 cd BankQL
 ```
 2. **Create and activate virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate
-   ```
+```bash
+python -m venv venv
+source venv/bin/activate
+```
 3. **Install Dependencies**
 ```bash
 pip install -r requirements.txt
