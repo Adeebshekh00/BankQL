@@ -44,9 +44,7 @@ ALTER TABLE accounts
 ADD COLUMN account_number VARCHAR(20) UNIQUE;
 
 UPDATE accounts
-SET account_number = (
-    SELECT LEFT(REPLACE(UUID(), '-', ''), 10)
-)
+SET account_number = LEFT(REPLACE(UUID(), '-', ''), 10)
 WHERE account_number IS NULL;
 
 
